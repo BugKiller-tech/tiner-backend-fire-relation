@@ -5,6 +5,18 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var mongoose = require('mongoose')
+var dotenv = require('dotenv');
+var Promise = require('bluebird')
+var cors = require('cors');
+
+dotenv.config();
+
+
+mongoose.Promise = Promise;
+mongoose.connect(process.env.MONGODB_URL, {useMongoClient: true})
+
+
 var index = require('./routes/index');
 
 var app = express();
@@ -20,6 +32,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors());
+
+
+
+
 
 app.use('/', index);
 
