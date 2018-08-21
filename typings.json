@@ -1,0 +1,7 @@
+{
+  "globalDependencies": {
+    "i18n": "registry:dt/i18n#0.5.0+20161128184045",
+    "moment": "registry:dt/moment#2.11.1+20161010105546",
+    "mongoose": "registry:dt/mongoose#4.7.0+20170322192047"
+  }
+}
