@@ -10,6 +10,7 @@ var mongoose = require('mongoose')
 var Promise = require('bluebird')
 var cors = require('cors');
 var chalk = require('chalk');
+var { celebrate, Joi, errors, isCelebrate } = require('celebrate');
 
 
 dotenv.config();
@@ -47,6 +48,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 app.use(require('./config/i18n'));
+// app.use(errors());
 
 
 
@@ -60,6 +62,18 @@ app.use(function(req, res, next) {
   err.status = 404;
   next(err);
 });
+
+
+// celebrate error handler
+app.use((err, req, res, next) => {
+  if (isCelebrate(err)) {
+    return res.status(400).json({
+      error: err.message,
+    })
+  }
+  next(err);
+})
+
 
 // error handler
 app.use(function(err, req, res, next) {
