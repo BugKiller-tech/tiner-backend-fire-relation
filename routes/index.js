@@ -2,12 +2,12 @@ var express = require('express');
 var router = express.Router();
 
 var users = require('./users');
-
-
+var things = require('./things');
 
 
 
 router.use('/users', users);
+router.use('/things', things);
 
 
 

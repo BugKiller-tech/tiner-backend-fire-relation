@@ -16,10 +16,11 @@ var { celebrate, Joi, errors, isCelebrate } = require('celebrate');
 dotenv.config();
 
 mongoose.Promise = Promise;
-mongoose.connect(process.env.MONGODB_URL, {useMongoClient: true})
+mongoose.connect(process.env.MONGODB_URL, {useNewUrlParser: true})
 mongoose.connection.once('open', () => {
   console.log(chalk.green('Connected to database now!! :)'))
 })
+mongoose.connection.on('error', console.error.bind(console, 'connection error:'));
 
 
 
@@ -67,8 +68,9 @@ app.use(function(req, res, next) {
 // celebrate error handler
 app.use((err, req, res, next) => {
   if (isCelebrate(err)) {
+    console.log('validation error--JNJ');
     return res.status(400).json({
-      error: err.message,
+      errors: res.__(err.message),
     })
   }
   next(err);

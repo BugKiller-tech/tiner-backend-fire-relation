@@ -10,8 +10,8 @@ const schema = new Schema(
     category: String,
     description: String,
     price: Number,
-    ownerId: String,
-    user: {
+    // ownerId: String,  // firebaseid
+    user: {  // user collection _id
       type: Schema.Types.ObjectId,
       ref: 'User',
     },
@@ -29,4 +29,4 @@ const schema = new Schema(
   }
 )
 
-module.export = mongoose.model('Thing', schema);
+module.exports = mongoose.model('Thing', schema);

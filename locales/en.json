@@ -1,3 +1,31 @@
 {
-  "APP_NAME": "TINDER SERVER"
+	"APP_NAME": "TINDER SERVER SV",
+  "SOMETHING_WRONG": "SOMETHING WENT WRONG",
+  "ALREADY_REGISTERED_USER": "the user id is already registered!",
+  "USER_REGISTERED_SUCCESS": "The user is registered successfully!",
+  "USER_REGISTER_FAILED": "Can not register user",
+  "CAN_NOT_FIND_USER": "Can not find user in database",
+
+  "FIREBASE_ID_REQUIRED": "Firebase id is required",
+  "MISSED_PARAMETER": "You missed some parameter",
+
+  "THING_REGISTERED_SUCCESS": "Successfully registered item",
+  "THING_REGISTER_FAILED": "Can not register item",
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	"SOMETHING_WENT_WRONG": "Something went wrong!",
+	"SUCCESS": "SUCCESS",
+	"FAILURE": "FAILURE"
 }
