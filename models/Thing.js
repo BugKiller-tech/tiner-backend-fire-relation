@@ -23,6 +23,21 @@ const schema = new Schema(
       type: Boolean,
       default: false,
     },
+
+
+    likes: {
+      type: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Thing'
+      }]
+    },
+    dislikes: {
+      type: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Thing'
+      }]
+    }
+
   },
   {
     timestamps: true

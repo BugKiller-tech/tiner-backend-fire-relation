@@ -33,11 +33,18 @@ const getAllThingsSchema = celebrate({
   }
 })
 
+const getCandidateThingsSchema = celebrate({
+  body: {
+    firebaseId: Joi.string().required().error(new Error('FIREBASE_ID_REQUIRED')),
+  }
+})
+
 router.use(checkValidUser);
 /* GET users listing. */
 router.post('/register', registerSchema, controller.register);
 router.post('/getMyThings', getAvailableSchema, controller.getMyThings);
-router.post('getAllThings', getAllThingsSchema, controller.getAllThings);
+router.post('/getAllThings', getAllThingsSchema, controller.getAllThings);
+router.post('/getCandidateThings', getCandidateThingsSchema, controller.getCandidateThings);
 
 
 module.exports = router;

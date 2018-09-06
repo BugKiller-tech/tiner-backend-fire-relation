@@ -1,6 +1,7 @@
 const User = require('../models/User');
 module.exports = async(req, res, next) => {
     try {
+      console.log(req.body);
       const { firebaseId } = req.body;
       if (!req.body.firebaseId) {
         return res.status(401).json({

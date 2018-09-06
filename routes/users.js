@@ -8,7 +8,8 @@ const checkValidUser = require('../middlewares/checkValidUser');
 
 const registerSchema = celebrate({
   body: {
-    firebaseId: Joi.string().required().error(new Error('firebaseId is required'))
+    firebaseId: Joi.string().required().error(new Error('firebaseId is required')),
+    name: Joi.string().allow('')
   }
 })
 
@@ -21,12 +22,22 @@ const updateSettingSchema = celebrate({
     maxPrice: Joi.number(),
   }
 })
+const updateLocationSchema = celebrate({
+  body: {
+    firebaseId: Joi.string().required().error(new Error('firebaseId is required')),
+    lat: Joi.number().required(),
+    lng: Joi.number().required(),
+  }
+})
 
+
+
+/* GET users listing. */
+router.post('/register', registerSchema, controller.register);
 
 
 router.use(checkValidUser);
-/* GET users listing. */
-router.post('/register', registerSchema, controller.register);
 router.post('/updateSetting', updateSettingSchema, controller.updateSetting);
+router.post('/updateLocation', updateLocationSchema, controller.updateLocation);
 
 module.exports = router;

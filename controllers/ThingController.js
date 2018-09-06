@@ -1,6 +1,7 @@
+const geolib = require('geolib');
+
 const User = require('../models/User');
 const Thing = require('../models/Thing');
-
 module.exports = {
   register: async (req, res) => {
     const { firebaseId, title, category, price, description, imageUrl1, imageUrl2, imageUrl3, imageUrl4 } = req.body;
@@ -39,7 +40,7 @@ module.exports = {
     try {
       const user1 = await User.findOne({ firebaseUserId: req.body.firebaseId });
       const things = await Thing.find({ user: user1._id, selled: false }).lean()
-      .sort({ createdAt: -1 }).limit(100);
+      .sort({ createdAt: -1 }).limit(100).populate('user');
       return res.json({
         things
       })      
@@ -58,6 +59,36 @@ module.exports = {
         things
       })      
       
+    } catch (err) {
+      return res.status(400).json({ errors: res.__('SOMETHING_WENT_WRONG') })
+    }
+  },
+  getCandidateThings: async (req, res) => {
+    try {
+      const me = await User.findOne({ firebaseUserId: req.body.firebaseId });
+
+      const allUsers = await User.find({ _id: { $ne: me._id } }).lean();
+      let availableUsersId = [];
+      allUsers.map(user => {
+        let distance = geolib.getDistance({ latitude: me.lat, longitude: me.lng }, { latitude: user.lat, longitude: user.lng }) / 1000.0;
+        if (distance <= me.radius) {
+          availableUsersId.push(user._id);
+        }
+      });
+      console.log('Available users id', availableUsersId);
+
+      const things = await Thing.find({ 
+        user: { $in: availableUsersId }, 
+        selled: false,
+        price: { $gte: me.minPrice, $lt: me.maxPrice }
+      }).lean()
+      .sort({ createdAt: -1 }).limit(1000)
+      .populate('user');
+
+      return res.json({
+        things
+      })
+
     } catch (err) {
       return res.status(400).json({ errors: res.__('SOMETHING_WENT_WRONG') })
     }
